@@ -19,49 +19,39 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
  * @author Bernardo
  */
 public class HelloBot extends TelegramLongPollingBot{
+    
+    int opcion;
+    String message_text;
+    String hola="Bienvenido al bot calculadora \nSeleccione una de las siguientes opciones \n1. Sumar 2 números. \n2.Calcular serie fibonacci.";
+    int num1;
+    int num2;
+    int suma;
 
     @Override
     public String getBotToken() {
-        return "2045747655:AAFVklUemzTTmje0WSQu3zVsgIHvBNeRbTE";
+        return "";
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-        long chat_id = update.getMessage().getChatId();
-        String message_text = update.getMessage().getText();
+        message_text = update.getMessage().getText();
         SendMessage message = new SendMessage(); 
-        if (update.hasMessage() && update.getMessage().hasText()) {
-
-            
-            message.setChatId(update.getMessage().getChatId().toString());
-            message.setText("Bienvenido al bot calculadora \nSeleccione una de las siguientes opciones \n1. Sumar 2 números. \n2.Calcular serie fibonacci.");
-            try {
-                execute(message); 
-                
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
-        int opcion = Integer.parseInt(update.getMessage().getText());
+        message.setText(hola);
+        opcion = Integer.parseInt(update.getMessage().getText());
         if (opcion == 1) {
 
             
-            try {
                 message.setText("Ingrese el primer número");
-                int num1 = Integer.parseInt(update.getMessage().getText());
-                execute(message); 
-                
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+                num1 = Integer.parseInt(update.getMessage().getText());
+                message.setText("Ingrese el segundo número");
+                num2 = Integer.parseInt(update.getMessage().getText());
+                suma=num1+num2;
+                message.setText("La suma es: "+suma);
+                message.setText(hola);
+            
         }else if(opcion==2){
             message.setText("Funcionalidad no implementada, intente otro día");
-            try {
-                execute(message); 
-                
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+            message.setText(hola);
         }
         
     }
